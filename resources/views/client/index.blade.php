@@ -6,43 +6,82 @@
 
 @section('content')
 
-    <div class="app-main__inner">
-        <div class="main-card mb-3 card">
-            <div class="card-body">
-                <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>ruc</th>
-                        <th>name</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+    @if(session('message'))
+        @include('shared.alert')
+    @endif
 
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>#</th>
-                        <th>ruc</th>
-                        <th>name</th>
-                    </tr>
-                    </tfoot>
-                </table>
+    <!-- ============================================================== -->
+    <!-- basic table  -->
+    <!-- ============================================================== -->
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+            <h5 class="card-header">Clientes</h5>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="clients-table" class="table table-striped table-bordered first dataTable" role="grid" aria-describedby="DataTables_Table_0_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80px;" aria-sort="ascending" aria-label="#: activate to sort column descending">
+                                                #
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 80.5px;" aria-label="Position: activate to sort column ascending">
+                                                {{__('RUC / DNI')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
+                                                {{__('Nombre')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;">
+                                                {{__('Acciones')}}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th rowspan="1" colspan="1">#</th>
+                                            <th rowspan="1" colspan="1">{{__('RUC / DNI')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Nombre')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Acciones')}}</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
+    <!-- ============================================================== -->
+    <!-- end basic table  -->
+    <!-- ============================================================== -->
 @endsection
 
 @push('scripts')
-    <script type='text/javascript' src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="{{asset('assets/vendor/datatables/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+    <script src="{{asset('assets/vendor/datatables/js/buttons.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/vendor/datatables/js/data-table.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.0.4/js/dataTables.rowGroup.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
     <script>
         let dt;
         $(document).ready(function() {
-            dt = $("#example").DataTable({
-                responsive: !0,
-                pageLength: 25,
+            dt = $("#clients-table").DataTable({
+                pageLength: 10,
                 lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
                 processing: true,
                 serverSide: true,
@@ -52,10 +91,11 @@
                 },
                 columns: [
                     {data: 'id', visible: false},
-                    {data: 'ruc'},
-                    {data: 'name'}
+                    {data: 'document_number'},
+                    {data: 'title'},
+                    {data: 'actions'}
                 ],
-                order: [[ 2, "desc" ]]
+                order: [[ 2, "asc" ]]
             });
         })
     </script>

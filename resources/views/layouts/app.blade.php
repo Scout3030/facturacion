@@ -24,36 +24,48 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/fontawesome/css/fontawesome-all.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css')}}">
 
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+{{--    <link rel="stylesheet" href="{{ asset('css/app.css') }}">--}}
 
     <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
 
 @stack('styles')
 </head>
 <body>
-    <!-- ============================================================== -->
-    <!-- main wrapper -->
-    <!-- ============================================================== -->
-    <div class="dashboard-main-wrapper">
-        @include('shared.header')
-
-        @include('shared.sidebar')
-
+    <div id="#app">
         <!-- ============================================================== -->
-        <!-- wrapper  -->
+        <!-- main wrapper -->
         <!-- ============================================================== -->
-        <div class="dashboard-wrapper">
+        <div class="dashboard-main-wrapper">
+            @include('shared.header')
 
-            @yield('content')
+            @include('shared.sidebar')
 
-            @include('shared.footer')
+            <!-- ============================================================== -->
+            <!-- wrapper  -->
+            <!-- ============================================================== -->
+            <div class="dashboard-wrapper">
+                <div class="container-fluid dashboard-content">
+                    <div class="row">
+                        <div class="col-xl-12">
 
+                            @include('shared.breadcrumb')
+
+                            @yield('content')
+
+                        </div>
+                    </div>
+                </div>
+
+                @include('shared.footer')
+
+            </div>
         </div>
-    </div>
 
-    <!-- ============================================================== -->
-    <!-- end main wrapper -->
-    <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- end main wrapper -->
+        <!-- ============================================================== -->
+
+    </div>
 
     <!-- Scripts -->
     <!-- Optional JavaScript -->

@@ -47,9 +47,15 @@ Route::group(['middleware' => ["auth"]], function () {
             ->name('index');
         Route::get('/create', 'ClientController@create')
             ->name('create');
+        Route::post('/store', 'ClientController@store')
+            ->name('store');
+        Route::delete('/delete/{client}', 'ClientController@destroy')
+            ->name('delete');
 
         Route::get('/datatable', 'ClientController@datatable')
             ->name('datatable');
+        Route::post('/sunat', 'ClientController@sunat')
+            ->name('sunat');
     });
 
 });

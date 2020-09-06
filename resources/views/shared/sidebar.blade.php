@@ -62,29 +62,14 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>UI Elements</a>
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>{{__('Clientes')}}</a>
                         <div id="submenu-2" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="cards.html">Cards <span class="badge badge-secondary">New</span></a>
+                                    <a class="nav-link" href="{{route('clients.index')}}">Administrar <span class="badge badge-secondary">New</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="general.html">General</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="carousel.html">Carousel</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="listgroup.html">List Group</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="typography.html">Typography</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="accordions.html">Accordions</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="tabs.html">Tabs</a>
+                                    <a class="nav-link" href="{{ route('clients.create') }}">Registrar</a>
                                 </li>
                             </ul>
                         </div>

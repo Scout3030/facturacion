@@ -96,6 +96,23 @@ class SunatService
             ->setLegends([$legend]);
 
         $result = $this->makeRequest($invoice);
+    }
 
+    public function sunatRuc ($ruc) {
+
+        $client = new \GuzzleHttp\Client([
+            'base_uri' => 'https://api.sunat.cloud',
+        ]);
+
+        $ruc = (string) $ruc;
+
+        $response = $client->request(
+            'GET',
+            "/ruc/{$ruc}"
+        );
+
+        $response = $response->getBody()->getContents();
+
+        return json_decode($response, true);
     }
 }
