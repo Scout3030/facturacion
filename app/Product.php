@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Helpers\Currency;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -17,8 +18,29 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $category_id
+ * @property string $name
+ * @property float $cost
+ * @property float $price
+ * @property int $stock
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereStock($value)
  */
 class Product extends Model
 {
-    //
+    protected $fillable = [
+        "category_id", "name",
+        "price", "cost", "stock"
+    ];
+
+    protected $appends = [
+        "formatted_price"
+    ];
+
+    public function getFormattedPriceAttribute() {
+        return Currency::formatCurrency($this->price);
+    }
 }

@@ -14,7 +14,10 @@
                         Menu
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
+                        <a class="nav-link @if (Request::url() == route('home.index')) active @endif" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
+                            <i class="fa fa-fw fa-user-circle"></i>Dashboard
+                            <span class="badge badge-success">6</span>
+                        </a>
                         <div id="submenu-1" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -62,55 +65,46 @@
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-rocket"></i>{{__('Clientes')}}</a>
+                        <a class="nav-link @if (Request::url() == route('clients.index')) active @endif" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2">
+                            <i class="fa fa-fw fa-rocket"></i>{{__('Clientes')}}
+                        </a>
                         <div id="submenu-2" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{route('clients.index')}}">Administrar <span class="badge badge-secondary">New</span></a>
+                                    <a class="nav-link" href="{{route('clients.index')}}">{{__("Administrar")}}<span class="badge badge-secondary">New</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('clients.create') }}">Registrar</a>
+                                    <a class="nav-link" href="{{ route('clients.create') }}">{{__('Registrar')}}</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fas fa-fw fa-chart-pie"></i>Chart</a>
+                        <a class="nav-link @if (Request::url() == route('products.index')) active @endif" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3">
+                            <i class="fas fa-fw fa-chart-pie"></i>{{__('Productos')}}
+                        </a>
                         <div id="submenu-3" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="chart-c3.html">C3 Charts</a>
+                                    <a class="nav-link" href="{{ route('products.index') }}">{{__("Administrar")}}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="chart-chartist.html">Chartist Charts</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="chart-charts.html">Chart</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="chart-morris.html">Morris</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="chart-sparkline.html">Sparkline</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="chart-gauge.html">Guage</a>
+                                    <a class="nav-link" href="{{ route('products.create') }}">{{__('Registrar')}}</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4"><i class="fab fa-fw fa-wpforms"></i>Forms</a>
+                        <a class="nav-link @if (Request::url() == route('categories.index')) active @endif" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-4" aria-controls="submenu-4">
+                            <i class="fab fa-fw fa-wpforms"></i>{{__('Categorias')}}
+                        </a>
                         <div id="submenu-4" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="form-elements.html">Form Elements</a>
+                                    <a class="nav-link" href="{{ route('categories.index') }}">{{__("Administrar")}}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="form-validation.html">Parsely Validations</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="multiselect.html">Multiselect</a>
+                                    <a class="nav-link" href="{{ route('categories.create') }}">{{__('Registrar')}}</a>
                                 </li>
                             </ul>
                         </div>

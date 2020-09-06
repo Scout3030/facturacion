@@ -58,4 +58,40 @@ Route::group(['middleware' => ["auth"]], function () {
             ->name('sunat');
     });
 
+    Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
+        Route::get('/', 'CategoryController@index')
+            ->name('index');
+        Route::get('/create', 'CategoryController@create')
+            ->name('create');
+        Route::get('/edit/{category}', 'CategoryController@edit')
+            ->name('edit');
+        Route::post('/store', 'CategoryController@store')
+            ->name('store');
+        Route::put('/update/{category}', 'CategoryController@update')
+            ->name('update');
+        Route::delete('/delete/{category}', 'CategoryController@destroy')
+            ->name('delete');
+
+        Route::get('/datatable', 'CategoryController@datatable')
+            ->name('datatable');
+    });
+
+    Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+        Route::get('/', 'ProductController@index')
+            ->name('index');
+        Route::get('/create', 'ProductController@create')
+            ->name('create');
+        Route::get('/edit/{product}', 'ProductController@edit')
+            ->name('edit');
+        Route::post('/store', 'ProductController@store')
+            ->name('store');
+        Route::put('/update/{product}', 'ProductController@update')
+            ->name('update');
+        Route::delete('/delete/{product}', 'ProductController@destroy')
+            ->name('delete');
+
+        Route::get('/datatable', 'ProductController@datatable')
+            ->name('datatable');
+    });
+
 });

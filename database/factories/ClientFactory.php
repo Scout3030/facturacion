@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Client::class, function (Faker $faker) {
     return [
-        'ruc' => $faker->numberBetween($min = 1000, $max = 9000),
-        'name' => $faker->name
+        'document_number' => $faker->numberBetween($min = 1000, $max = 9000),
+        'title' => $faker->name
     ];
 });

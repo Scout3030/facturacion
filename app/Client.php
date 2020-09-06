@@ -22,6 +22,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Client whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @method static \Illuminate\Database\Query\Builder|Client onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|Client whereDeletedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|Client withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Client withoutTrashed()
  */
 class Client extends Model
 {

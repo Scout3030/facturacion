@@ -50,6 +50,10 @@
 
                             @include('shared.breadcrumb')
 
+                            @if(session('message'))
+                                @include('shared.alert')
+                            @endif
+
                             @yield('content')
 
                         </div>

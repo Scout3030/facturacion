@@ -17,6 +17,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderLine whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderLine whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property int $order_id
+ * @property int $product_id
+ * @property float $price
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderLine whereOrderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderLine wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OrderLine whereProductId($value)
  */
 class OrderLine extends Model
 {
