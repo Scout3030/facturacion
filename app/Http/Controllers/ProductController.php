@@ -114,4 +114,14 @@ class ProductController extends Controller
             ->rawColumns(['actions'])
             ->toJson();
     }
+
+    public function showProduct()
+    {
+        if (request()->ajax())
+        {
+            $product = Product::find(request()->productId);
+            return response()->json($product, 200);
+        }
+        abort(401);
+    }
 }

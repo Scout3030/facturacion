@@ -26,12 +26,12 @@
 
 {{--    <link rel="stylesheet" href="{{ asset('css/app.css') }}">--}}
 
-    <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+
 
 @stack('styles')
 </head>
 <body>
-    <div id="#app">
+    <div id="app">
         <!-- ============================================================== -->
         <!-- main wrapper -->
         <!-- ============================================================== -->
@@ -83,5 +83,7 @@
     <script src="{{asset('assets/libs/js/main-js.js')}}"></script>
 
     @stack('scripts')
+
+    <script type="text/javascript" src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>

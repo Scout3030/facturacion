@@ -28,18 +28,24 @@ Route::group(['middleware' => ["auth"]], function () {
     Route::get('/', 'HomeController@index')
         ->name('home.index');
 
-    Route::group(['prefix' => 'sell', 'as' => 'sell.'], function () {
-        Route::get('/', 'SellController@index')
+    Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
+        Route::get('/', 'OrderController@index')
             ->name('index');
-    //    Route::post('/search', 'CourseController@search')->name('search');
-    //    Route::get('/{course}', 'CourseController@show')->name('show');
-    //    Route::get('/{course}/learn', 'CourseController@learn')
-    //        ->name('learn')->middleware("can_access_to_course");
-    //
-    //    Route::get('/{course}/review', 'CourseController@createReview')
-    //        ->name('reviews.create');
-    //    Route::post('/{course}/review', 'CourseController@storeReview')
-    //        ->name('reviews.store');
+        Route::get('/create', 'OrderController@create')
+            ->name('create');
+        Route::get('/edit/{order}', 'OrderController@edit')
+            ->name('edit');
+        Route::post('/store', 'OrderController@store')
+            ->name('store');
+        Route::put('/update/{order}', 'OrderController@update')
+            ->name('update');
+        Route::delete('/delete/{order}', 'OrderController@destroy')
+            ->name('delete');
+
+        Route::get('/datatable', 'OrderController@datatable')
+            ->name('datatable');
+        Route::get('/products/datatable', 'OrderController@productsDatatable')
+            ->name('products-datatable');
     });
 
     Route::group(['prefix' => 'clients', 'as' => 'clients.'], function () {
@@ -89,6 +95,9 @@ Route::group(['middleware' => ["auth"]], function () {
             ->name('update');
         Route::delete('/delete/{product}', 'ProductController@destroy')
             ->name('delete');
+
+        Route::post('/show-product', 'ProductController@showProduct')
+            ->name('show-product');
 
         Route::get('/datatable', 'ProductController@datatable')
             ->name('datatable');

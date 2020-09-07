@@ -109,15 +109,17 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fas fa-fw fa-table"></i>Tables</a>
+                    <li class="nav-item ">
+                        <a class="nav-link @if (Request::url() == route('orders.index')) active @endif" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5">
+                            <i class="fab fa-fw fa-wpforms"></i>{{__('Ordenes')}}
+                        </a>
                         <div id="submenu-5" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="general-table.html">General Tables</a>
+                                    <a class="nav-link" href="{{ route('orders.index') }}">{{__("Administrar")}}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="data-tables.html">Data Tables</a>
+                                    <a class="nav-link" href="{{ route('orders.create') }}">{{__('Registrar')}}</a>
                                 </li>
                             </ul>
                         </div>
