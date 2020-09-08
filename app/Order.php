@@ -23,8 +23,21 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereClientId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotal($value)
+ * @property-read \App\Client $client
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\OrderLine[] $orderLines
+ * @property-read int|null $order_lines_count
  */
 class Order extends Model
 {
-    //
+    protected $fillable = [
+        'client_id', 'total',
+    ];
+
+    public function client() {
+        return $this->belongsTo(Client::class);
+    }
+
+    public function orderLines(){
+        return $this->hasMany(OrderLine::class);
+    }
 }

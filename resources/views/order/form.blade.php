@@ -10,20 +10,26 @@
             <div class="card">
                 <h5 class="card-header">{{__('Registrar nueva orden')}}</h5>
                 <div class="card-body">
-                    <form method="POST" action="{{ $order->id ? route('orders.update', ['category' => $order->id]) : route('orders.store')}}">
+                    <form method="POST" action="{{ $order->id ? route('orders.update', ['order' => $order->id]) : route('orders.store')}}">
                         @if($order->id)
                             @method('put')
                         @endif
                         @csrf
                         <div class="form-group">
                             <label for="input-select">{{__("Cliente")}}</label>
-                            <select class="form-control" id="input-select" name="client_id">
-                                @if(!$order->id)<option value="">{{__("Seleccione cliente")}}</option>@endif
-                                @foreach(\App\Client::pluck('title', 'id') as $id => $title)
-                                    <option {{ (int) old('client_id') === $id || $order->client_id === $id ? 'selected' : '' }} value="{{ $id }}">
-                                        {{ $title }}
+                            <select class="form-control" id="input-select" name="client_id" {{$order->id ? 'readonly' : ''}}>
+                                @if(!$order->id)
+                                    <option value="">{{__("Seleccione cliente")}}</option>
+                                    @foreach(\App\Client::pluck('title', 'id') as $id => $title)
+                                        <option {{ (int) old('client_id') === $id || $order->client_id === $id ? 'selected' : '' }} value="{{ $id }}">
+                                            {{ $title }}
+                                        </option>
+                                    @endforeach
+                                @else
+                                    <option selected value="">
+                                        {{ $order->client->title }}
                                     </option>
-                                @endforeach
+                                @endif
                             </select>
                         </div>
 
@@ -31,6 +37,8 @@
 
                         <div class="form-row">
                             <input type="hidden" name="cart" value="">
+                            <label>{{__('Total')}} (S/)</label>
+                            <input class="form-control totalCart" value="0" readonly>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                 <button class="btn btn-primary mt-3" type="submit">{{ $btnText }}</button>
                             </div>
@@ -52,9 +60,13 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            let cart = [];
+            let cart = {!! $orderLines !!};
+            if (cart.length){
+                manageCart(cart)
+            }
             let cartNode = $("#cart");
             $('#products-table').on('click', '.add-to-cart', function () {
+                $(this).attr("disabled", true)
                 let productId = $(this).data('id')
                 let productIn = cart.find(x => x.id === productId);
                 if ( !productIn )
@@ -71,8 +83,7 @@
                         success: (res) => {
                             console.log(res)
                             cart.push(res)
-                            cartHtml(cart)
-                            serializeCart(cart)
+                            manageCart(cart)
                         }
                     })
                 }
@@ -81,10 +92,11 @@
             cartNode.on('click', '.deleteProduct', function(e){
                 e.preventDefault()
                 let productId = $(this).data('id')
+                // console.log($('[data-product='+productId+']'))
+                // $('[data-product='+productId+']')[0].disabled = false
                 let index = cart.findIndex(x => x.id === productId)
                 cart.splice(index,1)
-                cartHtml(cart)
-                serializeCart(cart)
+                manageCart(cart)
             })
 
             cartNode.on('change', '.productQty', function(){
@@ -92,8 +104,7 @@
                 let productId = $(this).data('id')
                 let index = cart.findIndex(x => x.id === productId)
                 cart[index].qty = Number(qty);
-                cartHtml(cart)
-                serializeCart(cart)
+                manageCart(cart)
                 // let qty = $(this)[0].value
                 // let priceNode = $(this).parent().next();
                 // let subtotalNode = $(this).parent().next().next();
@@ -108,9 +119,21 @@
                 let productId = $(this).data('id')
                 let index = cart.findIndex(x => x.id === productId)
                 cart[index].price = Number(price);
+                manageCart(cart)
+            })
+
+            function manageCart(cart){
                 cartHtml(cart)
                 serializeCart(cart)
-            })
+                calculateTotal(cart)
+            }
+
+            function calculateTotal(cart){
+                let total = cart.reduce(function(accumulator, product) {
+                    return parseFloat(accumulator) + (parseFloat(product.price) * parseInt(product.qty))
+                }, 0)
+                $('.totalCart').val(total)
+            }
 
             function serializeCart(cart)
             {
@@ -126,7 +149,7 @@
                     html +=
                         `<div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                             <label>{{__('Código')}}</label>
-                            <input type="text" class="form-control" value="${product.id}" readonly required>
+                            <input type="text" class="form-control" value="${product.code}" readonly required>
                         </div>
                         <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
                             <label>{{__('Producto')}}</label>

@@ -24,10 +24,16 @@
                                                 #
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
-                                                {{__('Nombre')}}
+                                                {{__('Cliente')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
+                                                {{__('Total')}}
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;">
                                                 {{__('Acciones')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;">
+                                                {{__('Registro')}}
                                             </th>
                                         </tr>
                                     </thead>
@@ -37,8 +43,10 @@
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">#</th>
-                                            <th rowspan="1" colspan="1">{{__('Nombre')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Cliente')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Total')}}</th>
                                             <th rowspan="1" colspan="1">{{__('Acciones')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Registro')}}</th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -83,10 +91,12 @@
                 },
                 columns: [
                     {data: 'id', visible: false},
-                    {data: 'name'},
-                    {data: 'actions'}
+                    {data: 'client.title'},
+                    {data: 'total'},
+                    {data: 'actions'},
+                    {data: 'created_at'}
                 ],
-                order: [[ 1, "asc" ]]
+                order: [[ 4, "desc" ]]
             });
         })
     </script>

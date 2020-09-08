@@ -39,6 +39,7 @@ class ProductController extends Controller
     {
         Product::create([
             'category_id' => $request->category_id,
+            'code' => $request->code,
             'name' => $request->name,
             'cost' => $request->cost,
             'price' => $request->price,
@@ -119,10 +120,23 @@ class ProductController extends Controller
     {
         if (request()->ajax())
         {
-            $product = Product::select(['id', 'name','price'])
+            $product = Product::select(['id', 'name','price', 'code'])
                 ->find(request()->productId);
             $product->qty = 1;
             return response()->json($product, 200);
+        }
+        abort(401);
+    }
+
+    public function generateProductCode()
+    {
+        if (request()->ajax())
+        {
+            $product = Product::whereCategoryId(request()->categoryId)
+                ->latest()
+                ->first();
+            $code = ((int) request()->categoryId)*10000000 + $product->id + 1;
+            return response()->json($code, 200);
         }
         abort(401);
     }

@@ -98,7 +98,8 @@ Route::group(['middleware' => ["auth"]], function () {
 
         Route::post('/show-product', 'ProductController@showProduct')
             ->name('show-product');
-
+        Route::post('/generate-product-code', 'ProductController@generateProductCode')
+            ->name('generate-product-code');
         Route::get('/datatable', 'ProductController@datatable')
             ->name('datatable');
     });

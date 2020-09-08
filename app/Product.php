@@ -28,11 +28,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereStock($value)
+ * @property-read mixed $formatted_price
+ * @property string $code
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereCode($value)
  */
 class Product extends Model
 {
     protected $fillable = [
-        "category_id", "name",
+        "category_id", "name", "code",
         "price", "cost", "stock"
     ];
 

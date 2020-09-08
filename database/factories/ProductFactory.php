@@ -9,6 +9,7 @@ $factory->define(Product::class, function (Faker $faker) {
     $cost = $faker->randomFloat(2, 10, 1000);
     return [
         'category_id' => \App\Category::all()->random()->id,
+        'code' => $faker->randomNumber(5, true),
         'name' => $faker->name,
         'cost' => $cost,
         'price' => $cost * 1.5,

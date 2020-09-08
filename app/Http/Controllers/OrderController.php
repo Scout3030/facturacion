@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderLine;
 use App\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -26,8 +28,9 @@ class OrderController extends Controller
     public function create()
     {
         $order = new Order();
+        $orderLines = new OrderLine;
         $btnText = __("Registrar orden");
-        return view('order.form', compact('order', 'btnText'));
+        return view('order.form', compact('order', 'orderLines', 'btnText'));
     }
 
     /**
@@ -39,15 +42,31 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $cartOrder = collect(json_decode($request->cart));
-        dd($cartOrder);
-        $orderLine = [];
+
+        $total = $cartOrder->reduce(function ($sum, $product) {
+            return $sum + $product->price;
+        });
 
         $order = Order::create([
-            'client_id' => $request->name
+            'client_id' => $request->client_id,
+            'total' => $total
         ]);
 
-        return redirect( route('categories.index') )
-            ->with('message', __("Categorìa registrada correctamente"));
+        foreach ($cartOrder as $product) {
+            $orderLines[] = [
+                'order_id' =>  $order->id,
+                'product_id' => $product->id,
+                'qty' => $product->qty,
+                'price' => $product->price
+            ];
+        }
+
+        $this->decreceStock($orderLines);
+
+        OrderLine::insert($orderLines);
+
+        return redirect( route('orders.index') )
+            ->with('message', __("Orden registrada correctamente"));
     }
 
     /**
@@ -69,8 +88,20 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $btnText = __("Actualizar categoría");
-        return view('order.form', compact('order', 'btnText'));
+        $order->load([
+            'client',
+            'orderLines.product'
+        ])->get();
+
+        $orderLines = collect($order->orderLines);
+        $orderLines = $orderLines->each(function ($orderLine, $key) {
+            $orderLine->name = $orderLine->product->name;
+            $orderLine->id = $orderLine->product->id;
+            $orderLine->code = $orderLine->product->code;
+        });
+        $orderLines = json_encode($orderLines);
+        $btnText = __("Actualizar orden");
+        return view('order.form', compact('order', 'orderLines', 'btnText'));
     }
 
     /**
@@ -82,11 +113,38 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
+        $cartOrder = collect(json_decode($request->cart));
+
+        $total = $cartOrder->reduce(function ($sum, $product) {
+            return $sum + $product->price;
+        });
+
         $order->fill([
-            'name' => $request->name
+            'total' => $total
         ])->save();
 
-        return back()->with('message', __("Categoría actualizada correctamente"));
+        $order->load([
+            'orderLines'
+        ])->get();
+
+        $this->increceStock($order->orderLines->toArray());
+
+        $order->orderLines()->delete();
+
+        foreach ($cartOrder as $product) {
+            $orderLines[] = [
+                'order_id' =>  $order->id,
+                'product_id' => $product->id,
+                'qty' => $product->qty,
+                'price' => $product->price
+            ];
+        }
+
+        $this->decreceStock($orderLines);
+
+        OrderLine::insert($orderLines);
+
+        return back()->with('message', __("Orden actualizada correctamente"));
     }
 
     /**
@@ -98,15 +156,27 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $order->load([
+            'orderLines'
+        ])->get();
+
+        $this->increceStock($order->orderLines->toArray());
+
+        $order->orderLines()->delete();
+
         $order->delete();
         return redirect( route('categories.index') )
-            ->with('message', __("Categorìa eliminada correctamente"));
+            ->with('message', __("Orden eliminada correctamente"));
     }
 
     public function datatable () {
-        $categories = Order::get();
-        return \DataTables::of($categories)
+        $orders = Order::with(['client'])->get();
+        return \DataTables::of($orders)
             ->addColumn('actions', 'order.datatable.actions')
+            ->editColumn('total', 'S/ {{$total}}')
+            ->editColumn('created_at', function(Order $order) {
+                return  $order->created_at->format('d-m-Y H:i');
+            })
             ->rawColumns(['actions'])
             ->toJson();
     }
@@ -118,5 +188,21 @@ class OrderController extends Controller
             ->editColumn('price', 'S/ {{$price}}')
             ->rawColumns(['actions'])
             ->toJson();
+    }
+
+    public function decreceStock($orderLines) {
+        foreach ($orderLines as $order){
+            $product = Product::whereId($order['product_id'])->first();
+            $product->stock = $product->stock - $order['qty'];
+            $product->save();
+        }
+    }
+
+    public function increceStock($orderLines) {
+        foreach ($orderLines as $order){
+            $product = Product::whereId($order['product_id'])->first();
+            $product->stock = $product->stock + $order['qty'];
+            $product->save();
+        }
     }
 }

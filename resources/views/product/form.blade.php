@@ -18,7 +18,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="input-select">{{__("Categoría")}}</label>
-                        <select class="form-control" id="input-select" name="category_id">
+                        <select class="form-control" id="category-select" name="category_id">
                             @if(!$product->id)<option value="">{{__("Seleccione categoría")}}</option>@endif
                             @foreach(\App\Category::pluck('name', 'id') as $id => $name)
                                 <option {{ (int) old('category_id') === $id || $product->category_id === $id ? 'selected' : '' }} value="{{ $id }}">
@@ -26,6 +26,15 @@
                                 </option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">{{__('Código de producto')}}</label>
+                        <div class="input-group input-group-sm">
+                            <input name="code" type="text" class="form-control" value="{{ $product->id ? $product->code : old('code') }}">
+                            <div class="input-group-append">
+                                <button id="generateProductCode" type="button" class="btn btn-primary">Generar automaticamente</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="title">{{__('Nombre de producto')}}</label>
@@ -55,21 +64,24 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            $('#sunat-data').click( function () {
+            let categoryId
+            $('#category-select').change(function(){
+                categoryId = this.selectedOptions[0].value
+            })
+            $('#generateProductCode').click( function () {
                 $('#loader').addClass('d-block')
                 jQuery.ajax({
-                    url: `{{ route('clients.sunat') }}`,
+                    url: `{{ route('products.generate-product-code') }}`,
                     type: 'POST',
                     headers: {
                         'x-csrf-token': $("meta[name=csrf-token]").attr('content')
                     },
                     data: {
-                        document : $('#document_number').val()
+                        categoryId : categoryId
                     },
                     success: (res) => {
-                        $('#loader').removeClass('d-block')
+                        $('input[name="code"]').val(res)
                         console.log(res)
-                        $('#title').val(res.razon_social)
                     }
                 })
             })
