@@ -10,14 +10,14 @@
             <div class="card">
                 <h5 class="card-header">{{__('Registrar nueva orden')}}</h5>
                 <div class="card-body">
-                    <form method="POST" action="{{ $order->id ? route('categories.update', ['category' => $order->id]) : route('categories.store')}}">
+                    <form method="POST" action="{{ $order->id ? route('orders.update', ['category' => $order->id]) : route('orders.store')}}">
                         @if($order->id)
                             @method('put')
                         @endif
                         @csrf
                         <div class="form-group">
                             <label for="input-select">{{__("Cliente")}}</label>
-                            <select class="form-control" id="input-select" name="category_id">
+                            <select class="form-control" id="input-select" name="client_id">
                                 @if(!$order->id)<option value="">{{__("Seleccione cliente")}}</option>@endif
                                 @foreach(\App\Client::pluck('title', 'id') as $id => $title)
                                     <option {{ (int) old('client_id') === $id || $order->client_id === $id ? 'selected' : '' }} value="{{ $id }}">
@@ -30,6 +30,7 @@
                         <div class="form-row" id="cart"></div>
 
                         <div class="form-row">
+                            <input type="hidden" name="cart" value="">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                 <button class="btn btn-primary mt-3" type="submit">{{ $btnText }}</button>
                             </div>
@@ -52,6 +53,7 @@
     <script>
         $(document).ready(function() {
             let cart = [];
+            let cartNode = $("#cart");
             $('#products-table').on('click', '.add-to-cart', function () {
                 let productId = $(this).data('id')
                 let productIn = cart.find(x => x.id === productId);
@@ -67,50 +69,89 @@
                             productId: productId
                         },
                         success: (res) => {
+                            console.log(res)
                             cart.push(res)
-                            let htmlCart = $('#cart')
-                            htmlCart.empty()
-                            let html = "";
-                            cart.forEach(product => {
-                                html +=
-                                `<div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
-                                    <label>{{__('Código')}}</label>
-                                    <input type="text" class="form-control" value="${product.id}" readonly required>
-                                </div>
-                                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
-                                    <label>{{__('Producto')}}</label>
-                                    <input type="text" class="form-control" value="${product.name}" readonly>
-                                </div>
-                                <div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
-                                    <label>{{__('Cantidad')}}</label>
-                                    <input type="number" class="form-control" min="1" max="${product.stock}" required="" value="1">
-                                </div>
-                                <div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
-                                    <label>{{__('Precio')}}</label>
-                                    <input type="number" class="form-control" value="${product.price}" required="">
-                                </div>
-                                <div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
-                                    <label >{{__('Subtotal')}}</label>
-                                    <input type="text" class="form-control" required="" readonly>
-                                </div>
-                                <div class="col-xl-1 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
-                                    <button class="btn btn-primary mt-4 deleteProduct" data-id="${product.id}">x</button>
-                                </div>
-                                `
-                            });
-
-                            htmlCart.append(html)
+                            cartHtml(cart)
+                            serializeCart(cart)
                         }
                     })
                 }
             })
 
-            $(".deleteProduct").click(function(e){
+            cartNode.on('click', '.deleteProduct', function(e){
                 e.preventDefault()
                 let productId = $(this).data('id')
-                let resp = cart.findIndex(x => x.id === productId)
-                console.log(resp)
+                let index = cart.findIndex(x => x.id === productId)
+                cart.splice(index,1)
+                cartHtml(cart)
+                serializeCart(cart)
             })
+
+            cartNode.on('change', '.productQty', function(){
+                let qty = $(this)[0].value
+                let productId = $(this).data('id')
+                let index = cart.findIndex(x => x.id === productId)
+                cart[index].qty = Number(qty);
+                cartHtml(cart)
+                serializeCart(cart)
+                // let qty = $(this)[0].value
+                // let priceNode = $(this).parent().next();
+                // let subtotalNode = $(this).parent().next().next();
+                // let price = priceNode.children()[1].value
+                // let subtotal = qty * price
+                // subtotalNode.children()[1].value = subtotal
+                // console.log('subtotal', subtotal)
+            })
+
+            cartNode.on('change', '.productPrice', function(){
+                let price = $(this)[0].value
+                let productId = $(this).data('id')
+                let index = cart.findIndex(x => x.id === productId)
+                cart[index].price = Number(price);
+                cartHtml(cart)
+                serializeCart(cart)
+            })
+
+            function serializeCart(cart)
+            {
+                $('input[name=cart]').val(JSON.stringify(cart))
+            }
+
+            function cartHtml(cart)
+            {
+                let htmlCart = $('#cart')
+                let html = "";
+                htmlCart.empty()
+                cart.forEach(product => {
+                    html +=
+                        `<div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                            <label>{{__('Código')}}</label>
+                            <input type="text" class="form-control" value="${product.id}" readonly required>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                            <label>{{__('Producto')}}</label>
+                            <input type="text" class="form-control" value="${product.name}" readonly>
+                        </div>
+                        <div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                            <label>{{__('Cantidad')}}</label>
+                            <input type="number" class="form-control productQty" data-id="${product.id}" min="1" max="${product.stock}" required="" value="${product.qty}">
+                        </div>
+                        <div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                            <label>{{__('Precio')}}</label>
+                            <input type="number" class="form-control productPrice" min="1" step="0.01" data-id="${product.id}" value="${product.price}" required="">
+                        </div>
+                        <div class="col-xl-2 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                            <label >{{__('Subtotal')}}</label>
+                            <input type="text" class="form-control" value="${product.price * product.qty}" required="" readonly>
+                        </div>
+                        <div class="col-xl-1 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                            <button class="btn btn-primary mt-4 deleteProduct text-white" data-id="${product.id}">x</button>
+                        </div>
+                        `
+                });
+
+                htmlCart.append(html)
+            }
         })
     </script>
 @endpush

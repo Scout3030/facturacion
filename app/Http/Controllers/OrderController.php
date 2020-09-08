@@ -26,7 +26,7 @@ class OrderController extends Controller
     public function create()
     {
         $order = new Order();
-        $btnText = __("Registrar categoría");
+        $btnText = __("Registrar orden");
         return view('order.form', compact('order', 'btnText'));
     }
 
@@ -38,8 +38,12 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        Order::create([
-            'name' => $request->name
+        $cartOrder = collect(json_decode($request->cart));
+        dd($cartOrder);
+        $orderLine = [];
+
+        $order = Order::create([
+            'client_id' => $request->name
         ]);
 
         return redirect( route('categories.index') )

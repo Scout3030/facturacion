@@ -119,7 +119,9 @@ class ProductController extends Controller
     {
         if (request()->ajax())
         {
-            $product = Product::find(request()->productId);
+            $product = Product::select(['id', 'name','price'])
+                ->find(request()->productId);
+            $product->qty = 1;
             return response()->json($product, 200);
         }
         abort(401);
