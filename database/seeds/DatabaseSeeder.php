@@ -27,17 +27,17 @@ class DatabaseSeeder extends Seeder
             'role_id' => \App\Role::ADMIN,
         ]);
 
-        factory(\App\User::class, 1)->create([
-            'name' => 'user',
-            'email' => 'user@mail.com',
-            'password' => bcrypt('secret'),
-            'role_id' => \App\Role::USER,
-        ]);
-
-        factory(\App\Client::class, 10)->create();
-
-        factory(\App\Category::class, 6)->create();
-
-        factory(\App\Product::class, 50)->create();
+//        factory(\App\User::class, 1)->create([
+//            'name' => 'user',
+//            'email' => 'user@mail.com',
+//            'password' => bcrypt('secret'),
+//            'role_id' => \App\Role::USER,
+//        ]);
+//
+//        factory(\App\Client::class, 10)->create();
+//
+//        factory(\App\Category::class, 6)->create();
+//
+//        factory(\App\Product::class, 50)->create();
     }
 }

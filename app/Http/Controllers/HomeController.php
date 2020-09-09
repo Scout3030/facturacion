@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,6 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $orders = Order::where('created_at', '>', Carbon::now()->subWeek())
+            ->get()
+            ->groupBy(function($date) {
+                return Carbon::parse($date->created_at)->format('Y-m-d');
+            });
+
+        return view('home', compact('orders'));
     }
 }

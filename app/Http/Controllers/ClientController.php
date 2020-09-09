@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Services\SunatService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ClientController extends Controller
 {
@@ -46,9 +47,14 @@ class ClientController extends Controller
 
     public function sunat(Request $request) {
         if(request()->ajax()) {
-            $sunatService = resolve(SunatService::class);
-            $response = $sunatService->sunatRuc($request->document);
-            return response()->json($response, 200);
+            try{
+                $sunatService = resolve(SunatService::class);
+                $response = $sunatService->sunatRuc($request->document);
+                return response()->json($response, 200);
+            }catch (\Exception $exception){
+                Log::debug('no se ha podido conectar con sunat '.$exception);
+                return response()->json('no se ha podido conectar con sunat '.$exception, 401);
+            }
         }
         return abort(401);
     }
