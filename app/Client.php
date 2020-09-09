@@ -35,4 +35,8 @@ class Client extends Model
     protected $fillable = [
         'document_number', 'title',
     ];
+
+    public function document(){
+        return $this->belongsTo(Document::class);
+    }
 }

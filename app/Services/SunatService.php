@@ -32,9 +32,10 @@ class SunatService
 //        $this->certificate_password = (string) config('services.sunat.password');
     }
 
-    public function sendInvoice() {
+    public function sendInvoice($data) {
+
         $client = new Client();
-        $client->setTipoDoc('6')
+        $client->setTipoDoc($data['proof_id'])
             ->setNumDoc('20000000001')
             ->setRznSocial('EMPRESA X');
 
@@ -96,6 +97,7 @@ class SunatService
             ->setLegends([$legend]);
 
         $result = $this->makeRequest($invoice);
+        dd($data);
     }
 
     public function sunatRuc ($ruc) {

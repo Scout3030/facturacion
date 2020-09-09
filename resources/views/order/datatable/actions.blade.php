@@ -5,4 +5,5 @@
         @method('delete')
         <button class="btn btn-rounded btn-danger" type="submit">{{__('Eliminar')}}</button>
     </form>
+    <a href="{{ route('invoices.create', ['order' => $id]) }}" class="btn btn-rounded btn-warning">{{__("Facturar")}}</a>
 </div>

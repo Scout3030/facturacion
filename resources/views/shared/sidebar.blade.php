@@ -89,6 +89,24 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-divider">
+                        {{__("Facturación")}}
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link @if (Request::url() == route('orders.index')) active @endif" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-5">
+                            <i class="fab fa-fw fa-wpforms"></i>{{__('Facturación')}}
+                        </a>
+                        <div id="submenu-6" class="collapse submenu" style="">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('invoices.index') }}">{{__("Administrar")}}</a>
+                                </li>
+                                <li class="nav-item">
+{{--                                    <a class="nav-link" href="{{ route('invoices.create') }}">{{__('Emitir')}}</a>--}}
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </nav>

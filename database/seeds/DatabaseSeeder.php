@@ -27,17 +27,55 @@ class DatabaseSeeder extends Seeder
             'role_id' => \App\Role::ADMIN,
         ]);
 
-//        factory(\App\User::class, 1)->create([
-//            'name' => 'user',
-//            'email' => 'user@mail.com',
-//            'password' => bcrypt('secret'),
-//            'role_id' => \App\Role::USER,
-//        ]);
-//
-//        factory(\App\Client::class, 10)->create();
-//
-//        factory(\App\Category::class, 6)->create();
-//
-//        factory(\App\Product::class, 50)->create();
+        factory(\App\User::class, 1)->create([
+            'name' => 'user',
+            'email' => 'user@mail.com',
+            'password' => bcrypt('secret'),
+            'role_id' => \App\Role::USER,
+        ]);
+
+        factory(\App\Proof::class, 1)->create([
+            'code' => 1,
+            'name' => 'Factura',
+            'status' => \App\Proof::ACTIVE
+        ]);
+        factory(\App\Proof::class, 1)->create([
+            'code' => 3,
+            'name' => 'Boleta',
+            'status' => \App\Proof::ACTIVE
+        ]);
+        factory(\App\Proof::class, 1)->create([
+            'code' => 7,
+            'name' => 'Nota de crédito'
+        ]);
+        factory(\App\Proof::class, 1)->create([
+            'code' => 8,
+            'name' => 'Nota de débito'
+        ]);
+
+        factory(\App\Document::class, 1)->create([
+            'name' => 'RUC'
+        ]);
+        factory(\App\Document::class, 1)->create([
+            'name' => 'DNI'
+        ]);
+        factory(\App\Document::class, 1)->create([
+            'name' => 'Pasaporte'
+        ]);
+        factory(\App\Document::class, 1)->create([
+            'name' => 'Carné de extranjería'
+        ]);
+        factory(\App\Document::class, 1)->create([
+            'name' => 'Cédula diplomática de identidad'
+        ]);
+        factory(\App\Document::class, 1)->create([
+            'name' => 'Documento tributario'
+        ]);
+
+        factory(\App\Client::class, 10)->create();
+
+        factory(\App\Category::class, 6)->create();
+
+        factory(\App\Product::class, 50)->create();
     }
 }
