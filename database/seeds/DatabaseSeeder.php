@@ -34,6 +34,22 @@ class DatabaseSeeder extends Seeder
             'role_id' => \App\Role::USER,
         ]);
 
+        factory(\App\Currency::class, 1)->create([
+            'name' => 'soles',
+            'code' => 'PEN',
+            'sign' => 'S/'
+        ]);
+        factory(\App\Currency::class, 1)->create([
+            'name' => 'dólares',
+            'code' => 'USD',
+            'sign' => '$'
+        ]);
+        factory(\App\Currency::class, 1)->create([
+            'name' => 'euros',
+            'code' => 'EUR',
+            'sign' => '€'
+        ]);
+
         factory(\App\Proof::class, 1)->create([
             'code' => 1,
             'name' => 'Factura',

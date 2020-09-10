@@ -24,7 +24,13 @@
                                                 #
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
-                                                {{__('Nombre')}}
+                                                {{__('Orden')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
+                                                {{__('Cliente')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
+                                                {{__('Estado')}}
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;">
                                                 {{__('Acciones')}}
@@ -37,7 +43,9 @@
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">#</th>
-                                            <th rowspan="1" colspan="1">{{__('Nombre')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Orden')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Cliente')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Estado')}}</th>
                                             <th rowspan="1" colspan="1">{{__('Acciones')}}</th>
                                         </tr>
                                     </tfoot>
@@ -77,13 +85,15 @@
                 lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('categories.datatable') }}',
+                ajax: '{{ route('invoices.datatable') }}',
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
                 columns: [
                     {data: 'id', visible: false},
-                    {data: 'name'},
+                    {data: 'order.id'},
+                    {data: 'order.client.title'},
+                    {data: 'status'},
                     {data: 'actions'}
                 ],
                 order: [[ 1, "asc" ]]

@@ -11,7 +11,7 @@
         <div class="card">
             <h5 class="card-header">{{__('Facturar orden')}}</h5>
             <div class="card-body">
-                <form method="POST" action="{{ route('invoices.store') }}">
+                <form method="POST" action="{{ route('invoices.preview', ['order' => $order->id]) }}">
                     @csrf
                     <div class="form-group">
                         <h5>{{__("Tipo de comprobante")}}</h5>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 mb-2">
                                 <label for="validationCustom06">{{__("Moneda")}}</label>
-                                <input type="text" class="form-control" id="validationCustom06" name="currency" required="">
+                                <input type="text" class="form-control" id="validationCustom06" required="" value="{{$order->currency->name}}" readonly>
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                                                 <td>Otto</td>
                                                 <td>{{$orderLine->price}}</td>
                                                 <td>{{$orderLine->qty}}</td>
-                                                <td>{{($orderLine->price * $orderLine->qty)/1.18 * 0.82}}</td>
+                                                <td>{{($orderLine->price * $orderLine->qty)/1.18}}</td>
                                                 <td>{{($orderLine->price * $orderLine->qty)/1.18 * 0.18}}</td>
                                                 <td>{{($orderLine->price * $orderLine->qty)}}</td>
                                             </tr>

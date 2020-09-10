@@ -96,8 +96,7 @@ class SunatService
         $invoice->setDetails([$item])
             ->setLegends([$legend]);
 
-        $result = $this->makeRequest($invoice);
-        dd($data);
+        return $this->makeRequest($invoice);
     }
 
     public function sunatRuc ($ruc) {

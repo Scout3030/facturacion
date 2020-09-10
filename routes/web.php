@@ -109,15 +109,19 @@ Route::group(['middleware' => ["auth"]], function () {
             ->name('index');
         Route::get('/create/{order}', 'InvoiceController@create')
             ->name('create');
-        Route::get('/edit/{invoice}', 'InvoiceController@edit')
-            ->name('edit');
-        Route::post('/store', 'InvoiceController@store')
+//        Route::get('/edit/{invoice}', 'InvoiceController@edit')
+//            ->name('edit');
+        Route::post('/store/{order}', 'InvoiceController@store')
             ->name('store');
-        Route::put('/update/{invoice}', 'InvoiceController@update')
-            ->name('update');
-        Route::delete('/delete/{invoice}', 'InvoiceController@destroy')
-            ->name('delete');
+//        Route::put('/update/{invoice}', 'InvoiceController@update')
+//            ->name('update');
+//        Route::delete('/delete/{invoice}', 'InvoiceController@destroy')
+//            ->name('delete');
 
+        Route::post('/preview/{order}', 'InvoiceController@preview')
+            ->name('preview');
+        Route::get('/preview-invoice/{order}', 'InvoiceController@previewInvoice')
+            ->name('preview-invoice');
         Route::get('/datatable', 'InvoiceController@datatable')
             ->name('datatable');
     });

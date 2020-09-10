@@ -17,6 +17,8 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients');
+            $table->unsignedBigInteger('currency_id')->default(\App\Currency::SOL);
+            $table->foreign('currency_id')->references('id')->on('currencies');
             $table->float('total', 8, 2);
             $table->timestamps();
             $table->softDeletes();

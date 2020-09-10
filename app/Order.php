@@ -40,4 +40,8 @@ class Order extends Model
     public function orderLines(){
         return $this->hasMany(OrderLine::class);
     }
+
+    public function currency () {
+        return $this->belongsTo(Currency::class);
+    }
 }

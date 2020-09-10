@@ -19,8 +19,10 @@ class CreateInvoicesTable extends Migration
             $table->foreign('proof_id')->references('id')->on('proofs');
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->references('id')->on('orders');
+            $table->string('name')->unique();
+            $table->integer('correlative');
             $table->enum('status', [
-                \App\Invoice::SENT, \App\Invoice::NOSENT, \App\Invoice::REJECTED, \App\Invoice::OBSERVED, \App\Invoice::APPROVED
+                \App\Invoice::NOSENT, \App\Invoice::REJECTED, \App\Invoice::OBSERVED, \App\Invoice::APPROVED
             ]);
             $table->timestamps();
             $table->softDeletes();

@@ -34,6 +34,8 @@ trait ConsumeSunatServices
         // Guardamos el CDR
         \Storage::disk('public')->put('invoices'.'/R-'.$invoice->getName().'.zip', $response->getCdrZip());
 
+        return $response;
+
         $cdr = $response->getCdrResponse();
 
         $code = (int) $cdr->getCode();
