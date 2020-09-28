@@ -42,13 +42,13 @@
 {{--                <div class="card-footer-item card-footer-item-bordered">--}}
 {{--                    <a href="#" class="footer-link">Create An Account</a></div>--}}
 
-                @if (Route::has('password.request'))
-                <div class="card-footer-item card-footer-item-bordered">
-                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                        {{ __('¿Olvidaste tu contraseña?') }}
-                    </a>
-                </div>
-                @endif
+{{--                @if (Route::has('password.request'))--}}
+{{--                <div class="card-footer-item card-footer-item-bordered">--}}
+{{--                    <a class="btn btn-link" href="{{ route('password.request') }}">--}}
+{{--                        {{ __('¿Olvidaste tu contraseña?') }}--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--                @endif--}}
 
             </div>
         </div>
