@@ -1,3 +1,6 @@
 {
-  "Socialite": "Entrar con Socialite"
+    "Socialite": "Entrar con Socialite",
+    "user": "usuario",
+    "admin": "administrador",
+    "superadmin": "superadministrador"
 }

@@ -6,6 +6,16 @@
 
 @section('content')
 
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ route("users.create") }}" class="btn btn-info btn-xs float-right">
+                    <i class="fas fa-plus"></i> {{__("Nuevo usuario")}}
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- ============================================================== -->
     <!-- basic table  -->
     <!-- ============================================================== -->
@@ -24,7 +34,16 @@
                                                 #
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
+                                                {{__('Imagen')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
                                                 {{__('Nombre')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
+                                                {{__('Email')}}
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;" aria-label="Nombre: activate to sort column ascending">
+                                                {{__('Rol')}}
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105.017px;">
                                                 {{__('Acciones')}}
@@ -37,7 +56,10 @@
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">#</th>
+                                            <th rowspan="1" colspan="1">{{__('Imagen')}}</th>
                                             <th rowspan="1" colspan="1">{{__('Nombre')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Email')}}</th>
+                                            <th rowspan="1" colspan="1">{{__('Rol')}}</th>
                                             <th rowspan="1" colspan="1">{{__('Acciones')}}</th>
                                         </tr>
                                     </tfoot>
@@ -77,13 +99,16 @@
                 lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
                 processing: true,
                 serverSide: true,
-                ajax: '{{ route('categories.datatable') }}',
+                ajax: '{{ route('users.datatable') }}',
                 language: {
                     url: "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
                 columns: [
                     {data: 'id', visible: false},
+                    {data: 'image'},
                     {data: 'name'},
+                    {data: 'email'},
+                    {data: 'role'},
                     {data: 'actions'}
                 ],
                 order: [[ 1, "asc" ]]

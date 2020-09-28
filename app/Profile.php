@@ -44,7 +44,6 @@ class Profile extends Model
     ];
 
     public function pathAttachment () {
-
         return $this->image ? "/images/profile/" . $this->image : asset('assets/images/default/default_profile.png');
     }
 }

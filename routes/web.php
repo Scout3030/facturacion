@@ -131,18 +131,24 @@ Route::group(['middleware' => ["auth"]], function () {
             ->name('index');
         Route::put('/update', 'ProfileController@update')
             ->name('update');
+    });
 
-//        Route::get('/create', 'ProfileController@create')
-//            ->name('create');
-//        Route::get('/edit/{category}', 'ProfileController@edit')
-//            ->name('edit');
-//        Route::post('/store', 'ProfileController@store')
-//            ->name('store');
-//
-//        Route::delete('/delete/{category}', 'ProfileController@destroy')
-//            ->name('delete');
-//        Route::get('/datatable', 'ProfileController@datatable')
-//            ->name('datatable');
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+        Route::get('/', 'UserController@index')
+            ->name('index');
+        Route::get('/create', 'UserController@create')
+            ->name('create');
+        Route::get('/edit/{user}', 'UserController@edit')
+            ->name('edit');
+        Route::post('/store', 'UserController@store')
+            ->name('store');
+        Route::put('/update/{user}', 'UserController@update')
+            ->name('update');
+        Route::delete('/delete/{user}', 'UserController@destroy')
+            ->name('delete');
+
+        Route::get('/datatable', 'UserController@datatable')
+            ->name('datatable');
     });
 
 });

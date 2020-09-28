@@ -51,7 +51,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'phone', 'role_id', 'picture', 'last_name'
     ];
 
     /**
@@ -72,8 +72,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function pathAttachment() {
-        return "/images/users/" . $this->picture;
+    public function pathAttachment () {
+        return $this->picture ? "/images/users/" . $this->picture : asset('assets/images/default/default_user.png');
     }
 
     public function role() {

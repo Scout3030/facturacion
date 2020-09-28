@@ -94,12 +94,15 @@
                     </li>
                     <li class="nav-item ">
                         <a class="nav-link @if (Request::url() == route('profile.index')) active @endif" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-5">
-                            <i class="fab fa-fw fa-wpforms"></i>{{__('Perfil')}}
+                            <i class="fab fa-fw fa-wpforms"></i>{{__('General')}}
                         </a>
                         <div id="submenu-6" class="collapse submenu" style="">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('profile.index') }}">{{__("Administrar")}}</a>
+                                    <a class="nav-link" href="{{ route('profile.index') }}">{{__("Perfil")}}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('users.index') }}">{{__("Usuarios")}}</a>
                                 </li>
                             </ul>
                         </div>
