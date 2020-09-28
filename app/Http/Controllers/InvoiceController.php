@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Invoice;
 use App\Order;
+use App\Services\InvoiceService;
 use App\Services\SunatService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -25,45 +26,93 @@ class InvoiceController extends Controller
     }
 
     public function preview (Request $request, Order $order) {
-        $data = $request->all();
-        session()->put('invoice', $data);
+        $invoiceService = new InvoiceService();
+        $invoiceService->deleteInvoice();
+        $invoiceService->addData('requestInvoiceData', $request->all());
+
         return redirect( route('invoices.preview-invoice', ['order' => $order->id]));
     }
 
     public function previewInvoice (Order $order) {
-        $data = session('invoice');
+        $invoiceService = new InvoiceService();
+        $invoiceService->getContent();
+
         $order->load([
             'client.document',
             'orderLines.product'
         ])->get();
-        return view('invoice.preview', compact('data', 'order'));
+
+        return view('invoice.preview', compact('invoiceData', 'order'));
     }
 
     public function store (Order $order) {
+
+        $invoiceService = new InvoiceService();
+        $invoiceService = $invoiceService->getContent();
+
+        $invoiceData = $invoiceService['requestInvoiceData'];
+
         $order->load([
             'client'
         ])->get();
-        $data = session('invoice');
 
-        $name = $this->generateName($order, $data);
-        $invoice = Invoice::whereProofId($data['proof_id'])->latest()->first();
-//        dd($name);
-        Invoice::create([
-            'name' =>  $name,
+        $lastInvoice = Invoice::whereProofId($invoiceData['proof_id'])
+                    ->select('correlative')
+                    ->latest()
+                    ->first();
+
+        $invoice = Invoice::create([
+            'name' =>  '$name',
             'proof_id' => 1,
             'order_id' => $order->id,
             'status' => Invoice::NOSENT,
-            'correlative' => $invoice->correlative + 1
+            'correlative' => $lastInvoice ? $lastInvoice->correlative + 1 : 1
         ]);
 
         try {
+
             $sunatService = resolve(SunatService::class);
-            $sunatService->sendInvoice($data);
+            $invoiceData = $this->generateInvoiceData($order, $invoiceData);
+            $response = $sunatService->sendInvoice($invoiceData);
+            $generatedInvoice = $invoiceService['generatedInvoice'];
+            $invoiceName = $generatedInvoice->getName();
+
+            if ($response->isSuccess()) {
+
+                /** saving the cdr */
+                \Storage::disk('public')->put('invoices'.'/R-'.$invoiceName.'.zip', $response->getCdrZip());
+
+                $cdr = $response->getCdrResponse();
+                $code = (int) $cdr->getCode();
+
+                if ($code === 0) {
+                    Log::info('FACTURA aceptada ');
+                    $status = \App\Invoice::APPROVED;
+                } else if ($code >= 4000) {
+                    Log::info('FACTURA ACEPTADA CON OBSERVACIONES '.json_encode($cdr->getNotes()));
+                    $status = \App\Invoice::OBSERVED;
+                } else if ($code >= 2000 && $code <= 3999) {
+                    Log::info('FACTURA RECHAZADA '.json_encode($cdr->getNotes()));
+                    $status = \App\Invoice::REJECTED;
+                } else {
+                    /** invalid cdr status */
+                    $status = 'Exception';
+                }
+                Log::info(json_encode($cdr->getDescription()).PHP_EOL);
+
+                $invoice->fill([
+                    'name' => $invoiceName,
+                    'status' => $status
+                ])->save();
+
+                return redirect( route('invoices.index'))->with('message', 'Documento emitido correctamente');
+            }
+
         }catch (\Exception $exception){
-            Log::debug('Error enviando documento a la sunat');
+            Log::debug('Ocurrió un error al enviar la factura a la SUNAT '.json_encode($response->getError()));
         }
 
-        return redirect( route('invoices.index'))->with('message', 'Documento emitido correctamente');
+        return redirect( route('invoices.index'))->with('message', 'Error al enviar documento a la SUNAT, intente nuevamente en unos momentos');
     }
 
     /**
@@ -86,11 +135,35 @@ class InvoiceController extends Controller
             ->toJson();
     }
 
-    public function generateName(Order $order, $data){
-        $RRRRRRRRRRR = $order->client->document_number;
-        $TT = str_pad($data['proof_id'], 2, "0", STR_PAD_LEFT);
-        $invoice = Invoice::whereProofId($data['proof_id'])->latest()->first();
-        $CCCCCCCC = $invoice->correlative + 1;
-        return $RRRRRRRRRRR.'-'.$TT.'-'.'FAAA'.'-'.$CCCCCCCC;
+    public function generateInvoiceData(Order $order, $invoiceData) {
+        dd($invoiceData);
+        $order->load([
+            'client',
+            'currency',
+            'orderLines.product'
+        ])->get();
+        return [
+            'documentType' => $invoiceData['proof_id'],
+            'client' => [
+                'document_number' => '20000000001',
+                'title' => $order->client->title
+            ],
+            'company' => [
+                'document_number' => '20123456789',
+                'title' => 'GREEN SAC',
+                'name' => 'GREEN',
+                'address' => [
+
+                ]
+            ],
+            'sale' => [
+                'taxes_amount' => 100.00,
+                'taxes_percent' => 18.00,
+                'taxes' => 18.00,
+                'amount' => 100.00,
+                'subtotal' => 118.00,
+                'total_amount' => 118.00
+            ]
+        ];
     }
 }

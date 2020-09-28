@@ -45,6 +45,7 @@
             <!-- ============================================================== -->
             <div class="dashboard-wrapper">
                 <div class="container-fluid dashboard-content">
+
                     <div class="row">
                         <div class="col-xl-12">
 
@@ -53,6 +54,8 @@
                             @if(session('message'))
                                 @include('shared.alert')
                             @endif
+
+                            @include('shared.error')
 
                             @yield('content')
 

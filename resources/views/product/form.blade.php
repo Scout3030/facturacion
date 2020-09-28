@@ -6,6 +6,15 @@
 
 @section('content')
 
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <a href="{{ route("products.index") }}" class="btn btn-info btn-xs float-right">
+                    <i class="fas fas fa-angle-double-left "></i> {{__("Todos los productos")}}
+                </a>
+            </div>
+        </div>
+    </div>
 
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
@@ -65,6 +74,9 @@
     <script>
         $(document).ready(function() {
             let categoryId
+            @if($product->id)
+                categoryId = {{$product->category_id}}
+            @endif
             $('#category-select').change(function(){
                 categoryId = this.selectedOptions[0].value
             })
@@ -81,7 +93,6 @@
                     },
                     success: (res) => {
                         $('input[name="code"]').val(res)
-                        console.log(res)
                     }
                 })
             })

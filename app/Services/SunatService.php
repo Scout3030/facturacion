@@ -35,10 +35,9 @@ class SunatService
     public function sendInvoice($data) {
 
         $client = new Client();
-        $client->setTipoDoc($data['proof_id'])
-            ->setNumDoc('20000000001')
-            ->setRznSocial('EMPRESA X');
-
+        $client->setTipoDoc('6')
+            ->setNumDoc($data['client']['document_number'])
+            ->setRznSocial($data['client']['title']);
         // Emisor
         $address = new Address();
         $address->setUbigueo('150101')
@@ -96,6 +95,9 @@ class SunatService
         $invoice->setDetails([$item])
             ->setLegends([$legend]);
 
+        $invoiceService = new InvoiceService();
+        $invoiceService->addData('generatedInvoice', $invoice);
+
         return $this->makeRequest($invoice);
     }
 
@@ -116,4 +118,6 @@ class SunatService
 
         return json_decode($response, true);
     }
+
+
 }

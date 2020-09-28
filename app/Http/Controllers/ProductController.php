@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         Product::create([
             'category_id' => $request->category_id,
@@ -47,7 +48,7 @@ class ProductController extends Controller
         ]);
 
         return redirect( route('products.index') )
-            ->with('message', __("Producto registrado correctamente"));
+            ->with('message', ['success', __("Producto registrado correctamente")]);
     }
 
     /**
@@ -80,7 +81,7 @@ class ProductController extends Controller
      * @param Product $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         $product->fill([
             'category_id' => $request->category_id,
@@ -111,7 +112,10 @@ class ProductController extends Controller
         $products = Product::get();
         return \DataTables::of($products)
             ->addColumn('actions', 'product.datatable.actions')
-            ->editColumn('price', 'S/ {{$price}}')
+//            ->editColumn('price', 'S/ {{$price}}')
+            ->editColumn('price', function(Product $product) {
+                return  $product->formatted_price;
+            })
             ->rawColumns(['actions'])
             ->toJson();
     }

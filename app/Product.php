@@ -4,6 +4,7 @@ namespace App;
 
 use App\Helpers\Currency;
 use Illuminate\Database\Eloquent\Model;
+use NumberFormatter;
 
 /**
  * App\Product
@@ -40,10 +41,20 @@ class Product extends Model
     ];
 
     protected $appends = [
-        "formatted_price"
+        "formatted_price",
+        "price_with_taxes",
+        "taxes"
     ];
 
     public function getFormattedPriceAttribute() {
         return Currency::formatCurrency($this->price);
+    }
+
+    public function getTaxesAttribute() {
+        return Currency::formatCurrency($this->price * env('TAXES'));
+    }
+
+    public function getPriceWithTaxesAttribute() {
+        return Currency::formatCurrency($this->price + ($this->price * env('TAXES')));
     }
 }

@@ -9,9 +9,20 @@
     <!-- ============================================================== -->
     <!-- basic table  -->
     <!-- ============================================================== -->
+
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
-            <h5 class="card-header">{{__("Categorías")}}</h5>
+            <div class="card-body">
+                <a href="{{ route("products.create") }}" class="btn btn-info btn-xs float-right">
+                    <i class="fas fa-plus"></i> {{__("Registrar producto")}}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+            <h5 class="card-header">{{__("Productos")}}</h5>
             <div class="card-body">
                 <div class="table-responsive">
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4">
