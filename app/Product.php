@@ -32,6 +32,8 @@ use NumberFormatter;
  * @property-read mixed $formatted_price
  * @property string $code
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCode($value)
+ * @property-read mixed $price_with_taxes
+ * @property-read mixed $taxes
  */
 class Product extends Model
 {

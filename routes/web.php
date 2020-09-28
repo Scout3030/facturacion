@@ -126,4 +126,23 @@ Route::group(['middleware' => ["auth"]], function () {
             ->name('datatable');
     });
 
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('/', 'ProfileController@index')
+            ->name('index');
+        Route::put('/update', 'ProfileController@update')
+            ->name('update');
+
+//        Route::get('/create', 'ProfileController@create')
+//            ->name('create');
+//        Route::get('/edit/{category}', 'ProfileController@edit')
+//            ->name('edit');
+//        Route::post('/store', 'ProfileController@store')
+//            ->name('store');
+//
+//        Route::delete('/delete/{category}', 'ProfileController@destroy')
+//            ->name('delete');
+//        Route::get('/datatable', 'ProfileController@datatable')
+//            ->name('datatable');
+    });
+
 });

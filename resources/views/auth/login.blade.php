@@ -7,7 +7,12 @@
     <!-- ============================================================== -->
     <div class="splash-container">
         <div class="card ">
-            <div class="card-header text-center"><a href="../index.html"><img class="logo-img" src="../assets/images/logo.png" alt="logo"></a><span class="splash-description">{{__('Ingresa tu información')}}</span></div>
+            <div class="card-header text-center">
+                <a href="javascript:void(0)">
+                    <img class="logo-img" src="{{\App\Profile::first()->pathAttachment()}}" alt="{{\App\Profile::first()->name}}" width="250">
+                </a>
+                <span class="splash-description">{{__('Ingresa tu información')}}</span>
+            </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
@@ -42,13 +47,13 @@
 {{--                <div class="card-footer-item card-footer-item-bordered">--}}
 {{--                    <a href="#" class="footer-link">Create An Account</a></div>--}}
 
-{{--                @if (Route::has('password.request'))--}}
-{{--                <div class="card-footer-item card-footer-item-bordered">--}}
-{{--                    <a class="btn btn-link" href="{{ route('password.request') }}">--}}
-{{--                        {{ __('¿Olvidaste tu contraseña?') }}--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--                @endif--}}
+                @if (Route::has('password.request'))
+                <div class="card-footer-item card-footer-item-bordered">
+                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                        {{ __('¿Olvidaste tu contraseña?') }}
+                    </a>
+                </div>
+                @endif
 
             </div>
         </div>

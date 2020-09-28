@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Client $client
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\OrderLine[] $orderLines
  * @property-read int|null $order_lines_count
+ * @property int $currency_id
+ * @property-read \App\Currency $currency
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCurrencyId($value)
  */
 class Order extends Model
 {

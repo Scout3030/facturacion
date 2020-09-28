@@ -11,11 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Storage::deleteDirectory('users');
+//         Storage::deleteDirectory('users');
         // Storage::deleteDirectory('banks');
 
         // Storage::makeDirectory('users');
         // Storage::makeDirectory('banks');
+        Storage::makeDirectory('profile');
 
         factory(\App\Role::class, 1)->create(['name' => 'admin']);
         factory(\App\Role::class, 1)->create(['name' => 'user']);
@@ -93,5 +94,13 @@ class DatabaseSeeder extends Seeder
         factory(\App\Category::class, 6)->create();
 
         factory(\App\Product::class, 50)->create();
+
+        factory(\App\Profile::class, 1)->create([
+            'name' => 'Ingrese nombre',
+            'address' => 'Ingrese dirección',
+            'phone_number' => '999-999999',
+            'email' => 'mail@business.com',
+            'description' => 'Ingrese descripción'
+        ]);
     }
 }
