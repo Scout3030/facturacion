@@ -17,32 +17,39 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/circular-std/style.css')}}" >
+    <link rel="stylesheet" href="{{asset('assets/libs/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/vendor/fonts/fontawesome/css/fontawesome-all.css')}}">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+    </style>
+{{--    <link href="{{ asset('css/app.css') }}" rel="stylesheet">--}}
 
     @stack('styles')
 </head>
 <body>
-<div id="main-wrapper">
-    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
 
-        <div class="app-main">
+    @yield('content')
 
-            <div class="app-main__outer">
-                <div class="app-main__inner">
-
-
-                    @yield('content')
-
-                </div>
-                @include('shared.footer')
-            </div>
-        </div>
-    </div>
-</div>
 <!-- Scripts -->
-<script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-<script type="text/javascript" src="{{asset('admin/assets/scripts/main.js')}}"></script>
-<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+<!-- Optional JavaScript -->
+<script src="{{asset('assets/vendor/jquery/jquery-3.3.1.min.js')}}"></script>
+<script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.js')}}"></script>
+{{--<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>--}}
 @stack('scripts')
 </body>
 </html>
