@@ -4,30 +4,36 @@
 
 @endpush
 
+@if($category->id)
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('category', $category) }}
+@endsection
+@else
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('category-create') }}
+@endsection
+@endif
+
 @section('content')
+{{--    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">--}}
+    <div class="card">
+        <h5 class="card-header">{{__('Registrar nuevo categoría')}}</h5>
+        <div class="card-body">
+            <form method="POST" action="{{ $category->id ? route('categories.update', ['category' => $category->id]) : route('categories.store')}}">
+                @if($category->id)
+                    @method('put')
+                @endif
+                @csrf
+                <div class="form-group">
+                    <label for="title">{{__('Nombre de categoría')}}</label>
+                    <input id="title" name="name" type="text" class="form-control" value="{{ $category->id ? $category->name : old('name') }}">
+                </div>
 
-
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-        <div class="card">
-            <h5 class="card-header">{{__('Registrar nuevo categoría')}}</h5>
-            <div class="card-body">
-                <form method="POST" action="{{ $category->id ? route('categories.update', ['category' => $category->id]) : route('categories.store')}}">
-                    @if($category->id)
-                        @method('put')
-                    @endif
-                    @csrf
-                    <div class="form-group">
-                        <label for="title">{{__('Nombre de categoría')}}</label>
-                        <input id="title" name="name" type="text" class="form-control" value="{{ $category->id ? $category->name : old('name') }}">
-                    </div>
-
-                    <button class="btn btn-primary mt-3" type="submit">{{ $btnText }}</button>
-                </form>
-            </div>
+                <button class="btn btn-primary mt-3" type="submit">{{ $btnText }}</button>
+            </form>
         </div>
     </div>
-
-
+{{--    </div>--}}
 @endsection
 
 @push('scripts')

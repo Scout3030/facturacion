@@ -4,6 +4,16 @@
 
 @endpush
 
+@if($order->id)
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('order', $order) }}
+@endsection
+@else
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('order-create') }}
+@endsection
+@endif
+
 @section('content')
     <div class="row">
         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 col-12">

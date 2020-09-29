@@ -4,10 +4,19 @@
 
 @endpush
 
+@if($client->id)
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('client', $client) }}
+@endsection
+@else
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('client-create') }}
+@endsection
+@endif
+
 @section('content')
 
-
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+{{--    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">--}}
         <div class="card">
             <h5 class="card-header">{{__('Registrar nuevo cliente')}}</h5>
             <div class="card-body">
@@ -32,7 +41,7 @@
                 </form>
             </div>
         </div>
-    </div>
+{{--    </div>--}}
 
 
 @endsection

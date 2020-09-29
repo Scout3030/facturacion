@@ -11,14 +11,19 @@
     <link rel="stylesheet" href="{{asset('assets/vendor/daterangepicker/daterangepicker.css')}}" type="text/css" />
 @endpush
 
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('home') }}
+@endsection
+
 @section('content')
+
 
 
     <div class="row">
         <!-- ============================================================== -->
         <!-- working capital  -->
         <!-- ============================================================== -->
-        <div class="col-12">
+        <div class="col-xl-9 col-lg-9 col-md-6 col-sm-12 col-12">
             <div class="card">
                 <div class="card-body">
                     <div id="sales-chart" style="height: 250px;"></div>
@@ -27,7 +32,7 @@
                                 <span class="fa-xs text-secondary mr-1 legend-tile">
                                     <i class="fa fa-fw fa-square-full"></i>
                                 </span>
-                                <span class="legend-text">Ventas por día</span>
+                                <span class="legend-text">Ventas en 7 días</span>
                             </span>
                         <p></p>
                     </div>
@@ -37,6 +42,32 @@
         <!-- ============================================================== -->
         <!-- end working capital  -->
         <!-- ============================================================== -->
+        <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+            <div class="card border-3 border-top border-top-primary">
+                <div class="card-body">
+                    <div class="d-inline-block">
+                        <h5 class="text-muted">{{__("Total productos")}}</h5>
+                        <h2 class="mb-0"> {{App\Product::get()->count()}}</h2>
+                    </div>
+                    <div class="float-right icon-circle-medium icon-box-lg bg-success-light mt-1">
+                        <i class="far fa-money-bill-alt fa-fw fa-sm text-success"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-3 border-top border-top-primary">
+                <div class="card-body">
+                    <div class="d-inline-block">
+                        <h5 class="text-muted">{{__("Total ventas en el tiempo")}}</h5>
+                        <h2 class="mb-0"> {{App\Order::get()->sum('total')}} PEN</h2>
+                    </div>
+                    <div class="float-right icon-circle-medium icon-box-lg bg-secondary-light mt-1">
+                        <i class="fas fa-box fa-fw fa-sm text-secondary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 

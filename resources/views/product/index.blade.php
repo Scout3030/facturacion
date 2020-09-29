@@ -4,6 +4,10 @@
 
 @endpush
 
+@section('breadcrumbs')
+    {{ Breadcrumbs::render('products') }}
+@endsection
+
 @section('content')
 
     <!-- ============================================================== -->
