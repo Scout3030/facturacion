@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helpers\Currency;
+use App\Traits\Hashidable;
 use Illuminate\Database\Eloquent\Model;
 use NumberFormatter;
 

@@ -172,7 +172,17 @@ class OrderController extends Controller
     public function datatable () {
         $orders = Order::with(['client'])->get();
         return \DataTables::of($orders)
-            ->addColumn('actions', 'order.datatable.actions')
+//            ->addColumn('actions', 'order.datatable.actions')
+            ->addColumn('actions', function(Order $order) {
+                return '<div class="d-flex">
+                            <a href="'. route('orders.edit', ['order' => $order]) .'" class="btn btn-rounded btn-warning">'.__("Editar").'</a>
+                            <form action="'. route('orders.delete', ['order' => $order]) .'" method="POST">
+                                <input type="hidden" name="_token" value="'.csrf_token().'">
+                                <input type="hidden" name="_method" value="delete">
+                                <button class="btn btn-rounded btn-danger" type="submit">'.__('Eliminar').'</button>
+                            </form>
+                        </div>';
+            })
             ->editColumn('total', 'S/ {{$total}}')
             ->editColumn('created_at', function(Order $order) {
                 return  $order->created_at->format('d-m-Y H:i');

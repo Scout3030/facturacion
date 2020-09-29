@@ -10,7 +10,7 @@
             <div class="card">
                 <h5 class="card-header">{{__('Registrar nueva orden')}}</h5>
                 <div class="card-body">
-                    <form method="POST" action="{{ $order->id ? route('orders.update', ['order' => $order->id]) : route('orders.store')}}">
+                    <form method="POST" action="{{ $order->id ? route('orders.update', ['order' => $order]) : route('orders.store')}}">
                         @if($order->id)
                             @method('put')
                         @endif

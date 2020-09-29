@@ -100,7 +100,17 @@ class CategoryController extends Controller
     public function datatable () {
         $categories = Category::get();
         return \DataTables::of($categories)
-            ->addColumn('actions', 'category.datatable.actions')
+//            ->addColumn('actions', 'category.datatable.actions')
+            ->addColumn('actions', function(Category $category) {
+                return '<div class="d-flex">
+                            <a href="'. route('categories.edit', ['category' => $category]) .'" class="btn btn-rounded btn-warning">'.__("Editar").'</a>
+                            <form action="'. route('categories.delete', ['category' => $category]) .'" method="POST">
+                                <input type="hidden" name="_token" value="'.csrf_token().'">
+                                <input type="hidden" name="_method" value="delete">
+                                <button class="btn btn-rounded btn-danger" type="submit">'.__('Eliminar').'</button>
+                            </form>
+                        </div>';
+            })
             ->rawColumns(['actions'])
             ->toJson();
     }

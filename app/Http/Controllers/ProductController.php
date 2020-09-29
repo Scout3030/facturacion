@@ -111,8 +111,17 @@ class ProductController extends Controller
     public function datatable () {
         $products = Product::get();
         return \DataTables::of($products)
-            ->addColumn('actions', 'product.datatable.actions')
-//            ->editColumn('price', 'S/ {{$price}}')
+//            ->addColumn('actions', 'product.datatable.actions')
+            ->addColumn('actions', function(Product $product) {
+                return '<div class="d-flex">
+                            <a href="'. route('products.edit', ['product' => $product]) .'" class="btn btn-rounded btn-warning">'.__("Editar").'</a>
+                            <form action="'. route('products.delete', ['product' => $product]) .'" method="POST">
+                                <input type="hidden" name="_token" value="'.csrf_token().'">
+                                <input type="hidden" name="_method" value="delete">
+                                <button class="btn btn-rounded btn-danger" type="submit">'.__('Eliminar').'</button>
+                            </form>
+                        </div>';
+            })
             ->editColumn('price', function(Product $product) {
                 return  $product->formatted_price;
             })

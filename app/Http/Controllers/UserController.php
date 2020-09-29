@@ -64,7 +64,17 @@ class UserController extends Controller
                 return __($user->role->name);
             })
             ->editColumn('image', 'user.datatable.image')
-            ->addColumn('actions', 'user.datatable.actions')
+//            ->addColumn('actions', 'user.datatable.actions')
+            ->addColumn('actions', function(User $user) {
+                return '<div class="d-flex">
+                            <a href="'. route('users.edit', ['user' => $user]) .'" class="btn btn-rounded btn-warning">'.__("Editar").'</a>
+                            <form action="'. route('users.delete', ['user' => $user]) .'" method="POST">
+                                <input type="hidden" name="_token" value="'.csrf_token().'">
+                                <input type="hidden" name="_method" value="delete">
+                                <button class="btn btn-rounded btn-danger" type="submit">'.__('Eliminar').'</button>
+                            </form>
+                        </div>';
+            })
             ->rawColumns(['actions', 'image'])
             ->toJson();
     }

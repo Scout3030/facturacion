@@ -11,7 +11,7 @@
         <div class="card">
             <h5 class="card-header">{{__('Registrar usuario')}}</h5>
             <div class="card-body">
-                <form method="POST" action="{{ $user->id ? route('users.update', ['user' => $user->id]) : route('register')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{ $user->id ? route('users.update', ['user' => $user]) : route('register')}}" enctype="multipart/form-data">
                     @if($user->id)
                         @method('put')
                     @endif
