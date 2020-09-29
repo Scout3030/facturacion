@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Order;
 use App\OrderLine;
 use App\Product;
@@ -36,10 +37,10 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param OrderRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
         $cartOrder = collect(json_decode($request->cart));
 
@@ -111,7 +112,7 @@ class OrderController extends Controller
      * @param Order $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(OrderRequest $request, Order $order)
     {
         $cartOrder = collect(json_decode($request->cart));
 

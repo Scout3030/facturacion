@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Http\Requests\ClientRequest;
 use App\Services\SunatService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -19,7 +20,7 @@ class ClientController extends Controller
         return view('client.form', compact('client', 'btnText'));
     }
 
-    public function store (Request $request) {
+    public function store (ClientRequest $request) {
 
         Client::create([
             'document_number' => $request->document_number,

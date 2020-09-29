@@ -89,12 +89,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Documento tributario'
         ]);
 
-        factory(\App\Client::class, 10)->create();
-
-        factory(\App\Category::class, 6)->create();
-
-        factory(\App\Product::class, 50)->create();
-
         factory(\App\Profile::class, 1)->create([
             'name' => 'Ingrese nombre',
             'address' => 'Ingrese dirección',
@@ -102,5 +96,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'mail@business.com',
             'description' => 'Ingrese descripción'
         ]);
+
+//        factory(\App\Client::class, 10)->create();
+//
+//        factory(\App\Category::class, 6)->create();
+//
+//        factory(\App\Product::class, 50)->create();
     }
 }
+
+
+
