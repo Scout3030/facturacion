@@ -29,10 +29,17 @@ class DatabaseSeeder extends Seeder
         ]);
 
         factory(\App\User::class, 1)->create([
-            'name' => 'user',
-            'email' => 'user@mail.com',
+            'name' => 'customer',
+            'email' => 'customer@mail.com',
             'password' => bcrypt('secret'),
-            'role_id' => \App\Role::USER,
+            'role_id' => \App\Role::CUSTOMER,
+        ]);
+
+        factory(\App\User::class, 1)->create([
+            'name' => 'operator',
+            'email' => 'operator@mail.com',
+            'password' => bcrypt('secret'),
+            'role_id' => \App\Role::OPERATOR,
         ]);
 
         factory(\App\Currency::class, 1)->create([

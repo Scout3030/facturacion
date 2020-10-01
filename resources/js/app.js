@@ -12,6 +12,12 @@ import store from './store'
 require('./plugins')
 Vue.config.productionTip = false
 
+import { routes } from './router';
+
+const router = new VueRouter({
+    routes
+})
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -25,7 +31,7 @@ Vue.config.productionTip = false
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('cart-products-component', require('./components/CartProductsComponent.vue').default);
-
+Vue.component('product-list-component', require('./components/Product/ListComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -33,5 +39,6 @@ Vue.component('cart-products-component', require('./components/CartProductsCompo
  */
 
 new Vue({
-    store
+    store,
+    router
 }).$mount('#app')

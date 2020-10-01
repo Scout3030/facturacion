@@ -22,11 +22,10 @@ Route::get('/images/{path}/{attachment}', function($path, $attachment) {
     }
 });
 
+Route::get('/', 'HomeController@index')
+    ->name('home.index');
+
 Route::group(['middleware' => ["auth"]], function () {
-
-
-    Route::get('/', 'HomeController@index')
-        ->name('home.index');
 
     Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
         Route::get('/', 'OrderController@index')

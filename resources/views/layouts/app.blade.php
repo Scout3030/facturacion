@@ -87,8 +87,5 @@
 
     @stack('scripts')
 
-    @if (Request::url() != route('home.index'))
-    <script type="text/javascript" src="{{ asset('js/app.js') }}" defer></script>
-    @endif
 </body>
 </html>

@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "vue-axios": "^2.1.5",
+        "vue-router": "^3.4.5",
         "vuex": "^3.5.1",
         "vuex-persist": "^2.2.0"
     }

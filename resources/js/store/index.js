@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
-import cart from '../modules/cart'
+import cartModule from '../modules/cart'
+import productModule from '../modules/product'
 
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
     storage: window.localStorage,
-    modules: ['cart']
+    // modules: ['cartModule']
+    modules: []
 })
 
 export default new Vuex.Store({
@@ -18,7 +20,8 @@ export default new Vuex.Store({
     actions: {
     },
     modules: {
-        cart
+        cartModule,
+        productModule
     },
     plugins: [vuexLocal.plugin]
 })

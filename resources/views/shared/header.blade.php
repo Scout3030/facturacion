@@ -16,6 +16,7 @@
                         <input class="form-control" type="text" placeholder="{{__('Buscar')}}...">
                     </div>
                 </li>
+                @auth
                 <li class="nav-item dropdown notification">
                     <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
                     <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
@@ -34,8 +35,7 @@
                                     <a href="#" class="list-group-item list-group-item-action">
                                         <div class="notification-info">
                                             <div class="notification-list-user-img"><img src="../assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                            <div class="notification-list-user-block"><span class="notification-list-user-name">
-John Abraham</span>is now following you
+                                            <div class="notification-list-user-block"><span class="notification-list-user-name"> John Abraham</span>is now following you
                                                 <div class="notification-date">2 days ago</div>
                                             </div>
                                         </div>
@@ -64,6 +64,7 @@ John Abraham</span>is now following you
                         </li>
                     </ul>
                 </li>
+                @endauth
                 <li class="nav-item dropdown connection">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-fw fa-th"></i>
@@ -100,6 +101,7 @@ John Abraham</span>is now following you
                         </li>
                     </ul>
                 </li>
+                @auth
                 <li class="nav-item dropdown nav-user">
                     <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img src="{{ auth()->user()->pathAttachment() }}" alt="" class="user-avatar-md rounded-circle">
@@ -127,6 +129,23 @@ John Abraham</span>is now following you
 
                     </div>
                 </li>
+                @else
+                    <li class="nav-item dropdown notification">
+                        <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ingresa <span class="indicator"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user mr-2"></i>{{__("Ingresa")}}
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cog mr-2"></i>{{__("Crea tu cuenta")}}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endauth
             </ul>
         </div>
     </nav>

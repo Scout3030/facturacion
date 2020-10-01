@@ -85,4 +85,16 @@ class User extends Authenticatable
     public static function navigation() {
         return auth()->check() ? auth()->user()->role->name : 'guest';
     }
+
+    public function isAdmin() {
+        return $this->role_id === Role::ADMIN;
+    }
+
+    public function isOperator() {
+        return $this->role_id === Role::OPERATOR;
+    }
+
+    public function isCustomer() {
+        return $this->role_id === Role::CUSTOMER;
+    }
 }

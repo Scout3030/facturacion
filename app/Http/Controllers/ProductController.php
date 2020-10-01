@@ -148,8 +148,17 @@ class ProductController extends Controller
             $product = Product::whereCategoryId(request()->categoryId)
                 ->latest()
                 ->first();
-            $code = ((int) request()->categoryId)*10000000 + $product->id + 1;
+            if ($product) $code = ((int) request()->categoryId)*10000000 + $product->id + 1;
+            else $code = request()->categoryId*10000000;
             return response()->json($code, 200);
+        }
+        abort(401);
+    }
+
+    public function productList() {
+        if (request()->ajax()){
+            $products = Product::select('id', 'name', 'price')->get();
+            return response()->json($products, 200);
         }
         abort(401);
     }
