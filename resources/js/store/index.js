@@ -8,8 +8,8 @@ Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
     storage: window.localStorage,
-    // modules: ['cartModule']
-    modules: []
+    modules: ['cartModule']
+    // modules: []
 })
 
 export default new Vuex.Store({

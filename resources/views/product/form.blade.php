@@ -27,7 +27,7 @@
     <div class="card">
         <h5 class="card-header">{{__('Registrar nuevo producto')}}</h5>
         <div class="card-body">
-            <form method="POST" action="{{ $product->id ? route('products.update', ['product' => $product->id]) : route('products.store')}}">
+            <form method="POST" action="{{ $product->id ? route('products.update', ['product' => $product->id]) : route('products.store')}}" enctype="multipart/form-data">
                 @if($product->id)
                     @method('put')
                 @endif
@@ -56,17 +56,32 @@
                     <label for="title">{{__('Nombre de producto')}}</label>
                     <input id="title" name="name" type="text" class="form-control" value="{{ $product->id ? $product->name : old('name') }}">
                 </div>
-                <div class="form-group">
-                    <label for="title">{{__('Costo')}}</label>
-                    <input id="title" name="cost" type="number" step="0.1" class="form-control" value="{{ $product->id ? $product->cost : old('cost') }}">
+                <div class="form-row">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                        <label for="title">{{__('Costo')}}</label>
+                        <input id="title" name="cost" type="number" step="0.1" class="form-control" value="{{ $product->id ? $product->cost : old('cost') }}">
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                        <label for="title">{{__('Precio')}}</label>
+                        <input id="title" name="price" type="number" step="0.01" class="form-control" value="{{ $product->id ? $product->price : old('price') }}">
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+                        <label for="title">{{__('Stock')}}</label>
+                        <input id="title" name="stock" type="number" class="form-control" value="{{ $product->id ? $product->stock : old('stock') }}">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="title">{{__('Precio')}}</label>
-                    <input id="title" name="price" type="number" step="0.01" class="form-control" value="{{ $product->id ? $product->price : old('price') }}">
-                </div>
-                <div class="form-group">
-                    <label for="title">{{__('Stock')}}</label>
-                    <input id="title" name="stock" type="number" class="form-control" value="{{ $product->id ? $product->stock : old('stock') }}">
+                <div class="form-row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12 mb-2">
+                        @if($product->id)
+                            <div class="text-center">
+                                <img src="{{$product->pathAttachment()}}" alt="{{$product->name}}" width="150px">
+                            </div>
+                        @endif
+                        <div class="custom-file mb-3 mt-3">
+                            <input name="picture" type="file" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">{{__("Imágen del producto")}}</label>
+                        </div>
+                    </div>
                 </div>
                 <button class="btn btn-primary mt-3" type="submit">{{ $btnText }}</button>
             </form>

@@ -19,6 +19,8 @@ class CreateProductsTable extends Migration
             $table->foreign('category_id')->references('id')->on('categories');
             $table->string('code')->unique();
             $table->string('name');
+            $table->text('description')->nullable();
+            $table->string('picture')->nullable();
             $table->float('cost', 8, 2);
             $table->float('price', 8, 2);
             $table->integer('stock');

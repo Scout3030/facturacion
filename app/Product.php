@@ -40,7 +40,7 @@ class Product extends Model
 {
     protected $fillable = [
         "category_id", "name", "code",
-        "price", "cost", "stock"
+        "price", "cost", "stock", "picture"
     ];
 
     protected $appends = [
@@ -48,6 +48,10 @@ class Product extends Model
         "price_with_taxes",
         "taxes"
     ];
+
+    public function pathAttachment () {
+        return $this->picture ? "/images/products/" . $this->picture : asset('assets/images/default/default_user.png');
+    }
 
     public function getFormattedPriceAttribute() {
         return Currency::formatCurrency($this->price);

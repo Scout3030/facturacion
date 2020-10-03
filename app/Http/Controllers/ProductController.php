@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Http\Requests\ProductRequest;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -21,7 +23,7 @@ class ProductController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -33,19 +35,17 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ProductRequest $request
+     * @return Response
      */
     public function store(ProductRequest $request)
     {
-        Product::create([
-            'category_id' => $request->category_id,
-            'code' => $request->code,
-            'name' => $request->name,
-            'cost' => $request->cost,
-            'price' => $request->price,
-            'stock' => $request->stock
-        ]);
+        if($request->hasFile('picture')) {
+            $picture = Helper::uploadFile( "picture", 'products');
+            $request->merge(['picture' => $picture]);
+        }
+
+        Product::create($request->input());
 
         return redirect( route('products.index') )
             ->with('message', ['success', __("Producto registrado correctamente")]);
@@ -54,19 +54,20 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Product $product
+     * @return void
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        $product->qty = 1;
+        return view('product.show', compact('product'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Product $product)
     {
@@ -79,26 +80,26 @@ class ProductController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $product->fill([
-            'category_id' => $request->category_id,
-            'name' => $request->name,
-            'cost' => $request->cost,
-            'price' => $request->price,
-            'stock' => $request->stock
-        ])->save();
+        if($request->hasFile('picture')) {
+            \Storage::delete('profile/' . $request->picture);
+            $picture = Helper::uploadFile( "picture", 'products');
+            $request->merge(['picture' => $picture]);
+        }
 
-        return back()->with('message', __("Producto actualizado correctamente"));
+        $product->fill($request->input())->save();
+
+        return back()->with('message', ['success', __("Producto actualizado correctamente")]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Product $product
-     * @return \Illuminate\Http\Response
+     * @return Response
      * @throws \Exception
      */
     public function destroy(Product $product)
@@ -157,7 +158,7 @@ class ProductController extends Controller
 
     public function productList() {
         if (request()->ajax()){
-            $products = Product::select('id', 'name', 'price')->get();
+            $products = Product::select(['id', 'name', 'price', 'picture'])->get();
             return response()->json($products, 200);
         }
         abort(401);

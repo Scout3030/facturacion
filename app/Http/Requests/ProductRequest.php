@@ -48,7 +48,6 @@ class ProductRequest extends FormRequest
                         'required',
                         Rule::exists('categories', 'id')
                     ],
-                    'code' => 'required|unique:products,code|size:8',
                     'name' => 'required|min:5',
                     'cost' => 'required|min:0',
                     'price' => 'required|min:0',

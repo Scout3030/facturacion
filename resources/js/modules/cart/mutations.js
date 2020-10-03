@@ -14,3 +14,11 @@ export function addProduct (state, product) {
 export function removeProductFromCart (state, product) {
     state.cart = filter(state.cart, ({id}) => id !== product.id)
 }
+
+export function decreceQuantity (state, product) {
+    const productInCart = find(state.cart, { id: product.id })
+    productInCart.qty -= 1
+    if (productInCart.qty === 0){
+        state.cart = filter(state.cart, ({id}) => id !== product.id)
+    }
+}

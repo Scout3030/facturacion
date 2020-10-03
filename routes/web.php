@@ -25,6 +25,16 @@ Route::get('/images/{path}/{attachment}', function($path, $attachment) {
 Route::get('/', 'HomeController@index')
     ->name('home.index');
 
+Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+    Route::get('/show/{product}', 'ProductController@show')
+        ->name('show');
+});
+
+Route::group(['prefix' => 'checkout', 'as' => 'checkout.'], function () {
+    Route::get('/', 'CheckoutController@index')
+        ->name('index');
+});
+
 Route::group(['middleware' => ["auth"]], function () {
 
     Route::group(['prefix' => 'orders', 'as' => 'orders.'], function () {
